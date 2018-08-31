@@ -45,7 +45,7 @@ class Version(namedtuple('_Version', 'major minor patch rc edition')):
         version = version.lstrip('v')
         version, _, rc = version.partition('-')
         if rc:
-            if 'rc' not in rc:
+            if 'rc' not in rc and 'tp' not in rc:
                 edition = rc
                 rc = None
             elif '-' in rc:
@@ -123,7 +123,7 @@ def get_versions(tags):
     for tag in tags:
         try:
             v = Version.parse(tag['name'])
-            if v not in BLACKLIST:
+            if v not in BLACKLIST and (not v.rc or 'tp' not in v.rc):
                 yield v
         except ValueError:
             print("Skipping invalid tag: {name}".format(**tag), file=sys.stderr)
