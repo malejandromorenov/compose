@@ -81,7 +81,7 @@ class ServiceTest(unittest.TestCase):
         service = Service('db', self.mock_client, 'myproject', image='foo')
 
         assert [c.id for c in service.containers()] == ['1']
-        assert service.g_next_container_number() == 2
+        assert service._next_container_number() == 2
         assert service.get_container(1).id == '1'
 
     def test_get_volumes_from_container(self):
